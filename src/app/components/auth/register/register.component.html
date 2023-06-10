@@ -1,0 +1,53 @@
+<!-- Sign up form -->
+<section class="signup">
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Inscription</h2>
+                <form method="POST" class="register-form" id="register-form">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i></label>
+                        <input type="text" [(ngModel)]="item.last_name" name="name" id="name" placeholder="Nom "/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i></label>
+                        <input type="text" [(ngModel)]="item.first_name" name="name" id="name" placeholder="Prenom"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i></label>
+                        <input type="text" [(ngModel)]="item.username" name="name" id="name" placeholder="Nom d'utilisateur"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i></label>
+                        <input type="email" [(ngModel)]="item.email" name="email" id="email" placeholder="Email "/>
+                    </div>
+                    <div class="form-group">
+                        <label for="pass"><i class="fas fa-lock"></i></label>
+                        <input type="password" [(ngModel)]="item.password" name="pass" id="pass" placeholder="Mot de passe"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="re-pass"><i class="fas fa-lock "></i></label>
+                        <input type="password" name="re_pass"  [(ngModel)]="item.password_confirm" id="re_pass" placeholder="Confirmez le mot de passe"/>
+                    </div>
+                    <div class="form-group">
+                        <!-- <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" [(ngModel)]="item.condition_utilisation"  /> -->
+                        
+                        <!-- <input type="checkbox" [(ngModel)]="item.condition_utilisation">
+                        <label for="agree-term" class="label-agree-term"><span><span></span></span>Confirmer que vous avez lu et accepté notre <a href="#" class="term-service">politique de confidentialité</a> avant de continuer  </label> -->
+                    </div>
+                    <div class="form-group form-button">
+                        <button type="submit" id="signin" class="form-submit btn btn-primary" (click)="register()">Inscription</button>
+                        <!-- <input type="submit" name="signup" id="signup" class="form-submit" value="Inscription"/> -->
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="../../../assets/images/signup-image.jpg" alt="sing up image"></figure>
+                <a href="login" class="signup-image-link">Déja membre ? Connectez vous</a>
+            </div>
+
+            <!-- loader  -->
+            <app-loader *ngIf="isLoading"></app-loader>
+        </div>
+    </div>
+</section>

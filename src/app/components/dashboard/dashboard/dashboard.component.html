@@ -1,0 +1,115 @@
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <app-sidebar></app-sidebar>
+    <div class="page-wrapper">
+        <div class="page-breadcrumb bg-white">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">Dashboard</h4>
+                </div>
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="d-md-flex">
+                        <ol class="breadcrumb ms-auto">
+                            <li><a (click)="logout()" class="fw-normal">Deconnexion</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title mb-4">Cours suivis</h3>
+                        <div class=" container">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-light">
+                                      <tr>
+                                        <th scope="col">Cours</th>
+                                        <th scope="col">Date d'inscription</th>
+                                        <th scope="col">Progression</th>
+                                      </tr>
+                                    </thead>
+                                    <!-- <tbody >
+                                      <tr>
+                                        <td>Mark</td>
+                                        <td>Otto</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': percentage + '%' }" [attr.aria-valuenow]="percentage" aria-valuemin="0" aria-valuemax="100">{{ percentage }}%</div>
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>Jacob</td>
+                                        <td>Thornton</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': percentage + '%' }" [attr.aria-valuenow]="percentage" aria-valuemin="0" aria-valuemax="100">{{ percentage }}%</div>
+                                            </div>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td >Larry the Bird</td>
+                                        <td>@twitter</td>
+                                        <td>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': percentage + '%' }" [attr.aria-valuenow]="percentage" aria-valuemin="0" aria-valuemax="100">{{ percentage }}%</div>
+                                            </div>
+                                        </td>
+                                      </tr>
+                                    </tbody> -->
+                                    <tbody  *ngIf="courSuivi.length > 0" >
+                                        <tr *ngFor="let cours of courSuivi" (click)="goToDetail(cours)">
+                                          <td>{{cours.title}}</td>
+                                          <td>{{cours.date_debut | date:'medium' }}</td>
+                                          <td>
+                                              <div class="progress">
+                                                  <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width':  cours.progression + '%' }" [attr.aria-valuenow]=" cours.progression" aria-valuemin="0" aria-valuemax="100">{{ cours.progression }}%</div>
+                                              </div>
+                                          </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody  *ngIf="courSuivi.length == 0">
+                                        <tr>
+                                          Aucun cours suivi pour le moment
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="container-fluid">
+            <div class="row white-box mb-4">
+                <h3 class="box-title ">Cours recommandé</h3> <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="card col-lg-4 border"  *ngFor="let cour of courses" >
+                            <img class="card-img-top" src="../../../../assets/images/card.jpg" alt="Card image cap">
+                            <div class="card-body">
+                              <h5 class="card-title">{{ cour.title}}</h5>
+                              <p class="card-text">{{cour.description }}</p>
+                              <a class="btn btn-primary" (click)="goToDetail(cour)">Voir Plus <i></i></a> 
+                            </div>
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        <footer class="footer text-center"> 2021 ©  <a></a>
+        </footer>
+        <app-loader *ngIf="isLoading"></app-loader>
+    </div>
+
+</div>
+

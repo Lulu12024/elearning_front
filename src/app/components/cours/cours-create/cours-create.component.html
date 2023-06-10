@@ -1,0 +1,177 @@
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <app-sidebar></app-sidebar>
+    <div class="page-wrapper">
+        <div class="page-breadcrumb bg-white">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">Création de cours</h4>
+                </div>
+                <!-- <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="d-md-flex">
+                        <ol class="breadcrumb ms-auto">
+                            <li><a href="#" class="fw-normal">Dashboard</a></li>
+                        </ol>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div class="white-box">
+                        
+                        <!-- <form >
+                        
+                            <div class="row mb-3">
+                              <div class="col-sm-10">
+                                <input type="text" placeholder="Titre du cours" class="form-control" [(ngModel)]="course.title" name="title">
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <div class="col-sm-10">
+                                <textarea placeholder="Description" class="form-control" [(ngModel)]="course.description" name="description"></textarea>
+                              </div>
+                            </div>
+                            <div *ngFor="let chapter of course.chapters; let i = index">
+                              <div class="card border col-md-10" *ngIf="course.chapters.length > 1">
+                                <h3>Chapitre {{ i + 1 }}</h3>
+                                <h5 class="card-header">{{ chapter.title }}</h5>
+                                <div class="card-body">
+                                  <p class="card-text">{{ chapter.description }}</p>
+                                  <div *ngFor="let section of chapter.subSections; let j = index">
+                                    <div class="card mb-3">
+                                      <div class="card-body">
+                                        <h5 class="card-title">{{ section.title }}</h5>
+                                        <p class="card-text">{{ section.content }}</p>
+                                        <button class="btn btn-danger" (click)="deleteSection(i, j)">Supprimer la section</button>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div *ngIf="canShowChapterSection[i]">
+                                    <div class="row mb-3">
+                                      <div class="col-sm-10">
+                                        <input type="text" placeholder="Titre de la section" class="form-control" [(ngModel)]="chapter.subSections[sectionIndex].title" name="sectionTitle{{i}}">
+                                      </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                      <div class="col-sm-10">
+                                        <textarea placeholder="Contenu de la section" class="form-control" [(ngModel)]="chapter.subSections[sectionIndex].content" name="sectionContent{{i}}"></textarea>
+                                      </div>
+                                    </div>
+                                    <button class="btn btn-success" (click)="saveSection(i)">Enregistrer la section</button>
+                                    <button class="btn btn-danger" (click)="cancelSectionForm(i)">Annuler</button>
+                                  </div>
+                                  <button class="btn btn-warning" (click)="showSectionForm(i)">Ajouter une section <i class="fa fa-plus"></i></button>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <button class=" col-md-2 btn btn-success" (click)="addChapter()">Ajouter un chapitre <i class="fa fa-plus"></i></button>
+                                <div class="col-md-6"></div>
+                                <button class="col-md-2 btn btn-primary" (click)="onSubmit()" type="submit">Créer le cours</button>
+                            </div>
+                        </form> -->
+                        <form >
+                            <div class="row mb-3">
+                              <div class="col-sm-10">
+                                <input type="text" placeholder="Titre du cours" class="form-control" [(ngModel)]="course.title" name="title">
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                              <div class="col-sm-10">
+                                <textarea placeholder="Description" class="form-control" [(ngModel)]="course.description" name="description"></textarea>
+                              </div>
+                            </div>
+                            <div *ngFor="let chapter of course.chapters; let i = index">
+                              <div class="card border col-md-10" *ngIf="course.chapters.length > 1">
+                                <h3>Chapitre {{ i + 1 }}</h3>
+                                <div class="container">
+                                  <div class="row mb-3">
+                                    <div class="col-sm-10">
+                                      <input type="text" placeholder="Titre du chapitre" class="form-control" [(ngModel)]="chapter.title" name="title">
+                                    </div>
+                                  </div>
+                                  <div class="row mb-3">
+                                    <div class="col-sm-10">
+                                      <textarea placeholder="Description du chapitre" class="form-control" [(ngModel)]="chapter.description" name="description"></textarea>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="card-body">
+                                  
+                                    <div *ngIf="canshowListSection == true ">
+                                            <div *ngFor="let section of course.chapters[i].subsections; let j = index">
+                                              <h2 class="card-header">{{ section.title }}</h2>
+                                              <div class="card-body">
+                                                <p class="card-text">{{ section.content }}</p>
+                                              </div>
+                                              
+                                            </div>
+                                        </div>
+                                  <!-- </div> -->
+                                <div *ngIf="canShowChapterSection[i] === true" class="mb-5">
+                                    <div class="row mb-3">
+                                        <div class="col-sm-10">
+                                            <input type="text" placeholder="Titre de la section" class="form-control" [(ngModel)]="chapter.subsections[sectionIndex].title" name="sectionTitle{{i}}">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <div class="col-sm-10">
+                                            <textarea placeholder="Contenu de la section" class="form-control" [(ngModel)]="chapter.subsections[sectionIndex].content" name="sectionContent{{i}}"></textarea>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-danger" (click)="cancelSectionForm(i)">Annuler</button>
+                                    <button class="btn btn-primary" (click)="saveSection(i)">Enregistrer la section <i class="fa fa-save"></i></button>
+
+                                    
+                                </div >
+                                  <button class="btn btn-warning mt-4" (click)="showSectionForm(i)">Ajouter une section <i class="fa fa-plus"></i></button>
+                                 
+                                    <div class="card mb-3">
+                                      <div *ngFor="let question of chapter.quiz.questions; let k = index">
+                                        <h6>Question {{ k + 1 }}</h6>
+                                        <div class="form-group">
+                                          <input type="text" class="form-control" placeholder="Enoncé" [(ngModel)]="question.statement" [name]="'quizQuestion' + i + k">
+                                        </div>
+                                        <div *ngFor="let option of question.options; let l = index">
+                                          <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                              <div class="input-group-text">
+                                                <input type="checkbox" [(ngModel)]="option.isCorrect" name="quizQuestion[k][l]">
+                                              </div>
+                                            </div>
+                                            
+                                            <input type="text" class="form-control" placeholder="Proposition de réponse" [(ngModel)]="option.text" aria-label="Text input with checkbox" [name]="'quizOptionText' + i + k + l">
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <button class="btn btn-success" (click)="addQuestion(i)">Ajouter une question</button>
+                                    <div class="row">
+
+                                    </div>
+                                  
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row">
+                                <button class="btn btn-success col-md-2" (click)="addChapter()">Ajouter un chapitre <i class="fa fa-plus"></i></button>
+                                <div class="col-md-6">
+                                  
+                                </div>
+                                <button class="btn btn-primary col-md-2" type="submit" (click)="onSubmit()">Créer le cours</button>
+                            </div>
+                          </form>
+                    </div>
+                </div>
+            </div>
+            <app-loader *ngIf="isLoading"></app-loader>
+        </div>
+        <footer class="footer text-center">Copyright 2023 ©  <a></a>
+        </footer>
+        
+    </div>
+
+</div>
+

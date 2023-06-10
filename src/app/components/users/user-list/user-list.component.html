@@ -1,0 +1,67 @@
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <app-sidebar></app-sidebar>
+    <div class="page-wrapper">
+        <div class="page-breadcrumb bg-white">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">Dashboard</h4>
+                </div>
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="d-md-flex">
+                        <ol class="breadcrumb ms-auto">
+                            <li><a (click)="logout()" class="fw-normal">Deconnexion</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                    <div class="white-box">
+                        <h3 class="box-title mb-4">Liste des utilisateurs</h3>
+                        <div class=" container">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-light">
+                                      <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Nom d'utilisateur </th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Role</th>
+                                        <th scope="col">Action</th>
+                                      </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <tr *ngFor="let user of users">
+                                          <td>{{user.last_name}}</td>
+                                          <td>{{user.first_name}}</td>
+                                          <td>{{user.username }}</td>
+                                          <td>{{user.email }}</td>
+                                          <td *ngIf=" user.is_admin ==false "> Utilisateurs</td>
+                                          <td *ngIf="user.is_admin ==true "> Admin</td>
+                                          <td>
+                                              <a (click)="goToUserEdit(user)"><i class="fa fa-pencil" name="Modifier"></i></a>
+                                          </td>
+                                        </tr>
+                                    </tbody>
+                                  </table>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer text-center"> 2021 © Ample Admin brought to you by <a
+                href="https://www.wrappixel.com/">wrappixel.com</a>
+        </footer>
+        <app-loader *ngIf="isLoading"></app-loader>
+    </div>
+
+</div>
+

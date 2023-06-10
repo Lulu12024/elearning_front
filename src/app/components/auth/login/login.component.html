@@ -1,0 +1,42 @@
+
+<section class="sign-in">
+        <div class="container ">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="../../../assets/images/signin-image.jpg" alt="sing up image"></figure>
+                    <a href="register" class="signup-image-link">Pas encore de compte ? Inscrivez vous</a>
+                </div>
+
+                <div class="signin-form mt-5">
+                    <h2 class="form-title">Connexion</h2>
+                    <form method="POST" class="register-form" id="login-form">
+                        <div class="form-group">
+                            <label for="your_name"><i class="fas fa-envelope"></i></label>
+                            <input type="text" [(ngModel)]="loginform.username" name="your_name" id="your_name" placeholder="Email / Nom d'utilisateur"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="your_pass"><i class="fas fa-lock"></i></label>
+                            <input type="password" [(ngModel)]="loginform.password" name="your_pass" id="your_pass" placeholder=" Mot de passe "/>
+                        </div>
+                        <!-- <div class="form-group">
+                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Se rappeler de moi</label>
+                        </div> -->
+                        <div class="form-group form-button">
+                            <!-- <input type="submit" name="signin" id="signin" class="form-submit" value="Connexion"/> -->
+                            <button type="submit" id="signin" class="form-submit btn btn-primary" (click)="login()">Connexion</button>
+                        </div>
+                    </form>
+                    <!-- <div class="social-login">
+                        <span class="social-label">Or login with</span>
+                        <ul class="socials">
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                            <li><a href="#"><i class="display-flex-center fa fa-google"></i></a></li>
+                        </ul>
+                    </div> -->
+                    <app-loader *ngIf="isLoading"></app-loader>
+                </div>
+            </div>
+        </div>
+</section>

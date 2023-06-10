@@ -1,0 +1,87 @@
+<!-- Utilisation de la modal de NgBootstrap -->
+
+
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <app-sidebar></app-sidebar>
+    <div class="page-wrapper">
+        <div class="page-breadcrumb bg-white">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">Dashboard</h4>
+                </div>
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="d-md-flex">
+                        <ol class="breadcrumb ms-auto">
+                            <li><a (click)="logout()" class="fw-normal">Deconnexion</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="container-fluid">
+            <div class="row white-box mb-4">
+                <h3 class="box-title ">Liste des Cours </h3> <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="card" *ngFor="let course of courses ; let i = index">
+                            <div class="row card-header">
+                                <h5 class="col-md-11">{{course.title}}</h5>
+                                <div class="col-md-1">
+                                    <a (click)="showEditForm(i)" style="color: rgb(0, 153, 255);cursor: pointer;"><i class="fa fa-pencil" name="Modifier"></i></a>
+                                    <a  (click)="confirmDelete(course)" style="margin-left: 20px;color: rgb(0, 153, 255);cursor: pointer;"><i class="fa fa-trash" name="Supprimer"></i></a>
+                                </div>
+                            </div>
+                            
+                            <div class="card-body">
+                              <p class="card-text">{{course.description}}</p>
+
+                              <div *ngIf="selectedCourseIndex === i">
+                                <div class="card" *ngFor="let chapter of courses[i].chapters;let j=index "> 
+                                    <div class="row card-header">
+                                        <h4 class="col-md-11">Chapitre {{ j + 1 }}  : {{chapter.title }}</h4>
+                                        <div class="col-md-1">
+                                            <a (click)="showChapterEditForm(j)" style="color: rgb(15, 25, 31);cursor: pointer;"><i class="fa fa-pencil" name="Modifier"></i></a>
+                                            <a  (click)="confirmDeleteChapter(chapter)" style="margin-left: 20px;color: rgb(15, 25, 31);cursor: pointer;"><i class="fa fa-trash" name="Supprimer"></i></a>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p> {{chapter.description}}</p>
+
+                                        <div *ngIf="selectedChapterIndex === j ">
+                                            <div class="card" *ngFor="let section of chapter.subsections ; let k=index "> 
+                                                <div class="row card-header">
+                                                    <h4 class="col-md-11">Section {{ k + 1 }}  : {{section.title }}</h4>
+                                                    <div class="col-md-1">
+                                                        <a  (click)="confirmDeleteSection(section)" style="margin-left: 20px;color: rgb(255, 3, 3);cursor: pointer;"><i class="fa fa-trash" name="Supprimer"></i></a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <p> {{section.content}}</p>
+                                                </div>
+                                              </div>
+                                          </div>
+                                    </div>
+                                  </div>
+                              </div>
+                              <!-- <a class="btn btn-primary" (click)="goToDetail(course)">Voir plus</a> -->
+                            </div>
+                            <!-- <app-confirmation-dialog style="z-index: 5050;" [message]="confirmationMessage" (confirmed)="deleteCourse($event)" #confirmationDialog>
+                            </app-confirmation-dialog> -->
+                        </div>
+                        <br>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        <footer class="footer text-center"> 2021 ©  <a></a>
+        </footer>
+        <app-loader *ngIf="isLoading"></app-loader>
+    </div>
+
+</div>
+

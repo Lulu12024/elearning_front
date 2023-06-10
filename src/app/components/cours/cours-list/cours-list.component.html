@@ -1,0 +1,46 @@
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <app-sidebar></app-sidebar>
+    <div class="page-wrapper">
+        <div class="page-breadcrumb bg-white">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">Dashboard</h4>
+                </div>
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <div class="d-md-flex">
+                        <ol class="breadcrumb ms-auto">
+                            <li><a (click)="logout()" class="fw-normal">Deconnexion</a></li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div class="container-fluid">
+            <div class="row white-box mb-4">
+                <h3 class="box-title ">Liste des Cours </h3> <hr>
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="card" *ngFor="let course of courses">
+                            <h5 class="card-header">{{course.title}}</h5>
+                            <div class="card-body">
+                              <p class="card-text">{{course.description}}</p>
+                              <a class="btn btn-primary" (click)="goToDetail(course)">Voir plus</a>
+                            </div>
+                          </div>
+                        <br>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        
+        <footer class="footer text-center"> 2021 ©  <a></a>
+        </footer>
+        <app-loader *ngIf="isLoading"></app-loader>
+    </div>
+
+</div>
+

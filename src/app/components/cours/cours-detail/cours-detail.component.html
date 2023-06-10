@@ -1,0 +1,134 @@
+<div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+    <app-sidebar></app-sidebar>
+    <div class="page-wrapper">
+        <div class="page-breadcrumb bg-white">
+            <div class="row align-items-center">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h4 class="page-title">Détail d'un cours</h4>
+                </div>
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                  <div class="d-md-flex">
+                      <ol class="breadcrumb ms-auto">
+                          <li><a (click)="logout()" class="fw-normal">Deconnexion</a></li>
+                      </ol>
+                  </div>
+              </div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                  <div class="progress-bar">
+                    <!-- <div class="progress" [style.width.%]="userProgress">
+                      {{ userProgress }}%
+                    </div> -->
+                    
+                    
+                  </div>
+                    <div class="white-box">
+                      
+                      <div class="container">
+                        <div class="progress">
+                          <div class="progress-bar" [style.width.%]="userProgress" [style.background]="'#4286f4'">
+                            <div class="progress-value"></div>
+                          </div>
+                        </div>
+                        <!-- <div class="progress bg-primary" [style.width.%]="userProgress" >
+                          {{ userProgress }}%
+                        </div> -->
+
+                        <!-- Affichage du titre et de la description du cours -->
+                        <div *ngIf="!currentChapter && !currentSection && !endCour" class="mt-4">
+                          <h1>{{ currentCourse.title }}</h1>
+                          <p>{{ currentCourse.description }}</p>
+                          <div class="row">
+                            <div class="col-md-10"></div>
+                            <button class="btn btn-primary col-md-2 mt-5 mb-4" (click)="startCourse()">Commencer le cours</button>
+                          </div>
+              
+                        </div>
+
+                        <!-- Affichage du titre et de la description du premier chapitre -->
+                        <div *ngIf="currentChapter && !quizMode">
+                          <h1 class="mt-4 mb-4">Chapitre {{currentChapterIndex + 1  }}</h1>
+                          <h1 class="mt-4" >{{ currentChapter.title }}</h1>
+                          <p>{{ currentChapter.description }}</p>
+                          <div *ngFor="let currentSection  of currentChapter.subsections">
+                            
+                              <h2>{{ currentSection.title }}</h2>
+                              <p>{{ currentSection.content }}</p>
+                              <div class="row">
+                                <div class="col-md-10"></div>
+                                
+                              </div>
+                              
+                            
+                          </div>
+                          <div class="row">
+                            <div class="col-md-7"></div>
+                            <button class="btn btn-primary col-md-5  mt-5 mb-4" (click)="nextSection()">Marquer que ce chapitre est terminé et passer au quiz<i class="fa fa-arrow-right"></i></button>
+                          </div>
+                        </div>
+
+                        <!-- Affichage des éléments de section -->
+                        <div *ngIf="currentSection && !quizMode">
+                          <h2>{{ currentSection.title }}</h2>
+                          <p>{{ currentSection.content }}</p>
+                          <div class="row">
+                            <div class="col-md-10"></div>
+                            <button class="btn btn-primary col-md-2 col-md-2 mt-5 mb-4" (click)="nextSection()">Suivant</button>
+                          </div>
+                          
+                        </div>
+
+                        <!-- Affichage du quiz -->
+                        <div *ngIf="quizMode" class="mb-4 mt-5" >
+                          
+                          <div *ngFor="let question of currentQuiz.questions; let k = index">
+                            <h6>Question {{ k + 1 }}</h6> <hr>
+                            <div class="form-group">
+                              <input type="text" class="form-control" disabled [(ngModel)]="question.statement">
+                              
+                            </div>
+                            <div *ngFor="let option of question.options; let l = index">
+                              <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                  <div class="input-group-text">
+                                    <!-- <input type="checkbox"  name="quizQuestion[k][l]" [(ngModel)]="userAnswers[l]" /> -->
+                                    <!-- <input type="checkbox" [checked]="userAnswers[k]?.includes(l)" (change)="toggleAnswer(k, l)"> -->
+                                    <input type="checkbox" [checked]="isAnswerSelected(k, l)" (change)="toggleAnswer(k, l)">
+                                    <label for="agree-term" class="label-agree-term"><span><span></span></span>  </label>
+                                  </div>
+                                </div>
+                                <input type="text" class="form-control" disabled placeholder="Proposition de réponse" [(ngModel)]="option.text" aria-label="Text input with checkbox" disabled>
+                              </div>
+                            </div>
+                            
+                          </div>
+                          <!-- code -->
+                          <div class="row mb-4">
+                            <div class="col-md-10"></div>
+                            <button class="btn btn-primary col-md-2 mb-4" (click)="submitQuiz(currentQuiz)">Soumettre le quiz</button>
+                          </div>
+                         
+                        </div>
+                        <div *ngIf="endCour">
+                          <div>
+                            <h3>{{successTitle}}</h3>
+                            <h6>{{successDescription}}</h6>
+                          </div>
+                        </div>
+                      
+                      </div>   
+                </div>
+            </div>
+            <app-loader *ngIf="isLoading"></app-loader>
+        </div>
+        <footer class="footer text-center">Copyright 2023  <a></a>
+        </footer>
+        
+    </div>
+
+</div>
+
