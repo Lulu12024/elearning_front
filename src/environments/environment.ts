@@ -4,8 +4,8 @@
 
 export const environment = {
   production: true,
-  //apiUrl:"http://localhost:3000/api/",
-  apiUrl : "https://app-2ba45c9f-66d7-4abc-a01b-33eed08417da.cleverapps.io/api/",
+  apiUrl:"http://localhost:8080/api/",
+  //apiUrl : "https://app-2ba45c9f-66d7-4abc-a01b-33eed08417da.cleverapps.io/api/",
   firebase: {
     apiKey: "AIzaSyB6A2oTu7Cc7oli4JKqct584mb-8aT4GI4",
     authDomain: "elearning-bd785.firebaseapp.com",

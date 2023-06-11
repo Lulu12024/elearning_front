@@ -50,7 +50,7 @@
                         </div>
 
                         <!-- Affichage du titre et de la description du premier chapitre -->
-                        <div *ngIf="currentChapter && !quizMode">
+                        <div *ngIf="currentChapter && !quizMode && !endCour">
                           <h1 class="mt-4 mb-4">Chapitre {{currentChapterIndex + 1  }}</h1>
                           <h1 class="mt-4" >{{ currentChapter.title }}</h1>
                           <p>{{ currentChapter.description }}</p>
@@ -67,12 +67,12 @@
                           </div>
                           <div class="row">
                             <div class="col-md-7"></div>
-                            <button class="btn btn-primary col-md-5  mt-5 mb-4" (click)="nextSection()">Marquer que ce chapitre est terminé et passer au quiz<i class="fa fa-arrow-right"></i></button>
+                            <button class="btn btn-primary col-md-5  mt-5 mb-4" (click)="nextChapter(currentChapter)">Marquer que ce chapitre est terminé et passer au quiz<i class="fa fa-arrow-right"></i></button>
                           </div>
                         </div>
 
                         <!-- Affichage des éléments de section -->
-                        <div *ngIf="currentSection && !quizMode">
+                        <!-- <div *ngIf="currentSection && !quizMode">
                           <h2>{{ currentSection.title }}</h2>
                           <p>{{ currentSection.content }}</p>
                           <div class="row">
@@ -80,10 +80,10 @@
                             <button class="btn btn-primary col-md-2 col-md-2 mt-5 mb-4" (click)="nextSection()">Suivant</button>
                           </div>
                           
-                        </div>
+                        </div> -->
 
                         <!-- Affichage du quiz -->
-                        <div *ngIf="quizMode" class="mb-4 mt-5" >
+                        <div *ngIf="quizMode && !endCour" class="mb-4 mt-5" >
                           
                           <div *ngFor="let question of currentQuiz.questions; let k = index">
                             <h6>Question {{ k + 1 }}</h6> <hr>

@@ -20,6 +20,8 @@ export class CoursDetailComponent {
   isCourseStarted: boolean = false;
   quizMode: boolean = false;
   courses:any;
+  chapterProgressId:any;
+  course:any=[]
   successTitle:string = '';
   successDescription:string = '';
   endCour:boolean = false;
@@ -30,10 +32,14 @@ export class CoursDetailComponent {
   currentQuestionIndex: number = 0; // Index de la question actuelle
   selectedAnswers: boolean[] = []; // Tableau pour stocker les réponses sélectionnées par l'utilisateur
   progression:number =0;
-  userProgress: number = 0;
-  pourcentage=0;
-  userProgressCours:number= -1;
+  userProgress: any = 0;
+  pourcentage:any=0;
+  userProgressCours:any= -1;
   successPercentage:number = 0;
+  totalQuiz:any=0;
+  currentQuizIndex:any =0;
+  currentQuizDone:any=0;
+  chapterId:number =0
   //userAnswers: boolean[] = [];
   //userAnswers: (boolean | undefined)[][] = [];
   //userAnswers: { [questionIndex: number]: number[] } = {};
@@ -62,8 +68,8 @@ export class CoursDetailComponent {
   }
 
   startCourse() {
-    console.log(this.userProgressCours)
-    if (this.userProgressCours == 0 ) {
+    console.log(this.userProgress)
+    if (this.userProgress == 0 ) {
       let data= {
         utilisateurId :  this.userdata.reference,
         coursId : this.cour.courId,
@@ -99,7 +105,36 @@ export class CoursDetailComponent {
     console.log(this.currentChapter)
     
   }
+  nextChapter(chapter:any) {
+    console.log(chapter)
+    console.log(this.chapterProgressId)
+    let item = {
+      progression :  parseInt(this.userProgress) + parseInt(this.pourcentage),
+      users : this.userdata.reference,
+      courId : this.cour.courId,
+      chapter : chapter.id
+    }
+    if(this.chapterProgressId != chapter.id){
+      this.isLoading = true ; 
+      this.cours.updateProgression(item).subscribe(
+        (result:any) =>{
+          this.isLoading = false;
+          this.getUserProgress();
+        }
+      )
+    }
 
+      this.quizMode = true;
+      this.currentQuizIndex = this.currentQuizIndex + 1
+       // Toutes les sections du chapitre ont été parcourues, passer au quiz
+      this.currentQuiz = this.currentChapter.quiz;
+      this.currentQuestionIndex = 0;
+
+      this.selectedAnswers = new Array(this.currentQuiz.questions.length).fill(false);
+   // }
+
+    
+  }
   nextSection() {
     
     //this.resetCurrentSection();
@@ -109,28 +144,33 @@ export class CoursDetailComponent {
     // } else {
       // Toutes les sections du chapitre ont été parcourues, passer au mode de quiz
       //enregistrer le nouveau niveu de progression
+    if (this.currentChapter.id == this.chapterId){
 
-    let item = {
-      progression :this.userProgressCours+ this.pourcentage,
-      users : this.userdata.reference,
-      courId : this.cour.courId
-    }
-    this.isLoading = true ; 
-    this.cours.updateProgression(item).subscribe(
-      (result:any) =>{
-        this.isLoading = false;
-        this.getUserProgress();
+    }else{
+      let item = {
+        progression : parseInt(this.userProgressCours) + parseInt(this.pourcentage),
+        users : this.userdata.reference,
+        courId : this.cour.courId
       }
-    )
-
-      this.quizMode = true;
-       // Toutes les sections du chapitre ont été parcourues, passer au quiz
-      this.currentQuiz = this.currentChapter.quiz;
-      this.currentQuestionIndex = 0;
-
-      this.selectedAnswers = new Array(this.currentQuiz.questions.length).fill(false);
-   // }
-
+      console.log(this)
+      this.isLoading = true ; 
+      this.cours.updateProgression(item).subscribe(
+        (result:any) =>{
+          this.isLoading = false;
+          this.getUserProgress();
+        }
+      )
+  
+        this.quizMode = true;
+         // Toutes les sections du chapitre ont été parcourues, passer au quiz
+        this.currentQuiz = this.currentChapter.quiz;
+        this.currentQuestionIndex = 0;
+  
+        this.selectedAnswers = new Array(this.currentQuiz.questions.length).fill(false);
+     // }
+  
+    }
+    
     
   }
 
@@ -142,6 +182,7 @@ export class CoursDetailComponent {
           console.log(result[0])
           this.isLoading = false;
           this.currentCourse = result[0];
+          this.course = result;
           console.log(this.currentCourse);
         },
         (error) => {
@@ -228,11 +269,37 @@ toggleAnswer(questionIndex: number, optionIndex: number): void {
           
           console.log(this.userProgressCours)
           this.userProgress = progress[0].progression;
+          this.chapterProgressId = progress[0].chapter_id
+          this.currentQuizDone = progress[0].cours_done
+          console.log(this.currentQuizDone)
           console.log(this.userProgress)
+          if ( this.chapterProgressId != 0){
+            
+            let targetChapter = null;
+
+            
+              for (const chapter of this.currentCourse.chapters) {
+                
+                if ( parseInt(chapter.id) === this.chapterProgressId ) {
+                  targetChapter = chapter;
+                  console.log(targetChapter)
+                  break;
+                }
+              }
+              console.log(targetChapter)
+              this.currentChapter = targetChapter
+            //this.currentChapter = this.course.chapters.filter((chapitre:any) => chapitre.id === progress[0].chapter_id);
+            //this.currentChapter= this.course.find((course:any) => course.chapters.find((chapter:any) => chapter.id === progress[0].chapter_id));
+            //const targetChapters = this.currentCourse.flatMap((course:any) => course.chapters.filter((chapter:any) => chapter.id === progress[0].chapter_id));
+
+            //this.currentChapter = this.currentCourse.chapters[progress[0].chapter_id];
+            //console.log(this.currentChapter)
+           // this.chapterId = progress[0].chapter_id 
+          }
         }
         else{
-          this.userProgressCours = progress.length ;
-          console.log(this.userProgressCours)
+          this.userProgress = 0 ;
+          console.log(this.userProgress)
         }
       },
       error => {
@@ -274,6 +341,8 @@ toggleAnswer(questionIndex: number, optionIndex: number): void {
   
   
   submitQuiz(currentQuiz:any): void {
+    
+    console.log(this.currentQuizIndex)
     // Traitez les réponses du quiz ici
     // Par exemple, affichez les réponses sélectionnées par l'utilisateur
     // for (let i = 0; i < this.currentQuiz.questions.length; i++) {
@@ -319,32 +388,67 @@ toggleAnswer(questionIndex: number, optionIndex: number): void {
       (result: any) =>{
         console.log(this.successPercentage)
         this.successPercentage = result.successPercentage
+        console.log(this.successPercentage)
+        // Affichage du pourcentage de réussite à l'utilisateur
+        if (this.successPercentage > 60) {
+          // Passer au chapitre suivant
+        
+        //mettre a jour la progression
+        console.log(this.currentChapter)
+        console.log(this.userProgress)
+        
+          let item = {
+            progression : parseInt(this.userProgress) + parseInt(this.pourcentage),
+            users : this.userdata.reference,
+            courId : this.cour.courId,
+            cours_done: this.currentQuizIndex
+          }
+          console.log(item)
+          if(this.currentQuizDone !=  this.currentQuizIndex){
+            this.isLoading = true ; 
+            this.cours.updateCoursProgression(item).subscribe(
+              (result:any) =>{
+                this.isLoading = false;
+                
+              }
+            )
+          }
+          //this.getUserProgress();
+          //this.nextSection();
+
+          
+
+        // Incrémente l'index du chapitre actuel
+        this.currentChapterIndex =  this.currentChapterIndex + 1;
+        console.log(this.currentChapterIndex)
+        this.currentChapter  = this.currentCourse.chapters[this.currentChapterIndex];
+        // Réinitialise les sélections de réponses
+        this.userAnswers = [];
+
+        // Affiche le contenu du nouveau chapitre
+        this.showChapterContent();
+        let data = {
+          courId: this.cour.courId,
+          utilisateurId : this.userdata.reference
+        }
+        this.cours.getUserProgress(data).subscribe(
+          (progress: any )=> {
+            console.log(progress)
+            this.userProgress = progress[0].progression;
+          this.chapterProgressId = progress[0].chapter_id
+          this.currentQuizDone = progress[0].cours_done
+          });
+        this.utils.notifySuccessMessage(`Votre pourcentage de réussite : ${this.successPercentage}%` , 'Quiz')
+        }
+        else{
+
+          this.utils.notifyErrorMessage(`Votre pourcentage de réussite : ${this.successPercentage}% . Veuillez recommzncez le quiz ` , 'Quiz')
+
+        }
       }
     )
     /******************************************************************************************************* */
-    // Affichage du pourcentage de réussite à l'utilisateur
-    //alert(`Votre pourcentage de réussite : ${successPercentage}%`);
     
-    if (this.successPercentage > 60) {
-      // Passer au chapitre suivant
-    this.nextSection();
-
-    // Incrémente l'index du chapitre actuel
-    this.currentChapterIndex++;
-
-    // Réinitialise les sélections de réponses
-    this.selectedAnswer = [];
-
-    // Affiche le contenu du nouveau chapitre
-    this.showChapterContent();
-
-    this.utils.notifySuccessMessage(`Votre pourcentage de réussite : ${this.successPercentage}%` , 'Quiz')
-    }
-    else{
-
-      this.utils.notifyErrorMessage(`Votre pourcentage de réussite : ${this.successPercentage}% . Veuillez recommzncez le quiz ` , 'Quiz')
-
-    }
 
     
     

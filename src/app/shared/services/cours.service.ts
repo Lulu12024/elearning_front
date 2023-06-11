@@ -47,7 +47,7 @@ export class CourService {
     }
 
     updateCoursProgression(item:any){
-      return this.http.post(environment.apiUrl + 'update-cours-suivi' , item);
+      return this.http.post(environment.apiUrl + 'update-cours-suivi-after-quiz' , item);
     }
 
     //supression de cours
