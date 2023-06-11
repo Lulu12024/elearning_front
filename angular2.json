@@ -4,11 +4,12 @@
   "newProjectRoot": "projects",
   "projects": {
     "elearning-source": {
-      "projectType": "application",
-      "schematics": {},
       "root": "",
       "sourceRoot": "src",
+      "projectType": "application",
       "prefix": "app",
+      "schematics": {
+      },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -16,9 +17,6 @@
             "outputPath": "dist/elearning-source",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
@@ -41,11 +39,25 @@
               "src/assets/js/sidebarmenu.js",
               "src/assets/js/custom.js",
               "src/assets/plugins/bower_components/chartist/dist/chartist.min.js"
-            ]
+           
+            ],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
               "optimization": true,
+              "outputHashing": "all",
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
@@ -54,28 +66,17 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "4mb",
+                  "maximumError": "11mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              
-              "namedChunks": true
+              ]
             }
-          },
-          "defaultConfiguration": "production"
+          }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -98,15 +99,10 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "src/karma.conf.js",
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -114,7 +110,7 @@
               "assets/css/style.min.css"
             ],
             "scripts": [
-              
+               
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
               "src/assets/plugins/bower_components/jquery/dist/jquery.min.js",
@@ -125,10 +121,20 @@
               "src/assets/js/sidebarmenu.js",
               "src/assets/js/custom.js",
               "src/assets/plugins/bower_components/chartist/dist/chartist.min.js"
+            
+            ],
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
             ]
           }
         }
       }
     }
+    
+  },
+  "defaultProject": "elearning-source",
+  "cli": {
+    "analytics": false
   }
 }
